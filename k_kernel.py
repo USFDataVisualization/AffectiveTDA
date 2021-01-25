@@ -21,6 +21,9 @@ for subject in subjects:
             h0_filepath = f'../Output/{subject}/metric/persistence/h0/{"_".join(subsection)}/'
             h1_filepath = f'../Output/{subject}/metric/persistence/h1/{"_".join(subsection)}/'
 
+            bottleneck_output_filepath = f'../Output/{subject}/metric/signal/bottleneck_{"_".join(subsection)}_{k}.txt'
+            wasserstein_output_filepath = f'../Output/{subject}/metric/signal/wasserstein_{"_".join(subsection)}_{k}.txt'
+
             h0_bottleneck_frames = os.popen(f'{bottleneck_path} {h0_filepath} {k}').read().split(' ')[:-1]
             h1_bottleneck_frames = os.popen(f'{bottleneck_path} {h1_filepath} {k}').read().split(' ')[:-1]
             h0_wasserstein_frames = os.popen(f'{wasserstein_path} {h0_filepath} {k}').read().split(' ')[:-1]
@@ -35,9 +38,7 @@ for subject in subjects:
                 bottleneck_frames.append(str(max([float(h0_bottleneck_frames[i]),float(h1_bottleneck_frames[i])])))
                 wasserstein_frames.append(str(sum([float(h0_wasserstein_frames[i]),float(h1_wasserstein_frames[i])])))
 
-            print(bottleneck_frames)
-            print(wasserstein_frames)
-
-            break
-        break
-    break
+            with open(bottleneck_output_filepath, 'w') as file:
+                file.write('\n'.join(bottleneck_frames))
+            with open(wasserstein_output_filepath, 'w') as file:
+                file.write('\n'.join(wasserstein_frames))
